@@ -17,6 +17,18 @@ class Channel:
         self.video_count = self.info["items"][0]["statistics"]["videoCount"]
         self.view_count = self.info["items"][0]["statistics"]["viewCount"]
 
+    def __str__(self):
+        return f'Youtube-канал: {self.title}'
+
+    def __add__(self, other):
+        return int(self.subscriber_count) + int(other.subscriber_count)
+
+    def __gt__(self, other):
+        return int(self.subscriber_count) > int(other.subscriber_count)
+
+    def __lt__(self, other):
+        return int(self.subscriber_count) < int(other.subscriber_count)
+
     @property
     def channel_id(self) -> str:
         """Возвращает ID канала"""
