@@ -1,18 +1,40 @@
-from classes import Channel
+import json
+
+from classes import Channel, Video, PLVideo
 
 
 def main():
-    shulman = Channel('UCL1rJ0ROIw9V1qFeIN0ZTZQ')  # Екатерина Шульман
-    vdud = Channel('UCMCgOm8GZkHp8zJ6l7_hIuA')  # вДудь
+    # shulman = Channel('UCL1rJ0ROIw9V1qFeIN0ZTZQ')  # Екатерина Шульман
+    # vdud = Channel('UCMCgOm8GZkHp8zJ6l7_hIuA')  # вДудь
+    #
+    # print(shulman)
+    # print(vdud)
+    #
+    # print(vdud.subscriber_count)
+    # print(shulman.subscriber_count)
+    # print(shulman + vdud)
+    # print(vdud > shulman)
+    # print(vdud < shulman)
+    #
+    # video1 = Video('Q0lHb-FCATk')
+    # print(json.dumps(video1.info, indent=2, ensure_ascii=False))
+    # print(video1.title)
+    # print(video1.view_count)
+    # print(video1.like_count)
+    # print(video1)
+    #
+    # video2 = PLVideo('W9P_qUnMaFg', 'RDCLAK5uy_kWiJXUNLZM9EyS3GBGznl1ku8_cOos97U')
+    # print(json.dumps(video2.pl_info, indent=2, ensure_ascii=False))
+    # print(video2.title)
+    # print(video2.view_count)
+    # print(video2.like_count)
+    # print(video2.pl_title)
+    # print(video2)
 
-    print(shulman)
-    print(vdud)
-
-    print(vdud.subscriber_count)
-    print(shulman.subscriber_count)
-    print(shulman + vdud)
-    print(vdud > shulman)
-    print(vdud < shulman)
+    video1 = Video('9lO06Zxhu88')
+    video2 = PLVideo('BBotskuyw_M', 'PL7Ntiz7eTKwrqmApjln9u4ItzhDLRtPuD')
+    print(video1)
+    print(video2)
 
 
 if __name__ == "__main__":
