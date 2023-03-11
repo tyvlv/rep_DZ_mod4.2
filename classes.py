@@ -1,9 +1,24 @@
+import datetime
 import os
 import json
 from googleapiclient.discovery import build
+import isodate
 
 
-class Channel:
+class Youtube:
+    """Класс API youtube"""
+
+    @classmethod
+    def get_service(cls):
+        """Возвращает объект для работы с API youtube"""
+        # YoutubeAPI_key скопирован из гугла и вставлен в переменные окружения
+        api_key: str = os.getenv('YoutubeAPI_key')
+        # создает специальный объект для работы с API
+        youtube = build('youtube', 'v3', developerKey=api_key)
+        return youtube
+
+
+class Channel(Youtube):
     """Класс канала Youtube"""
 
     def __init__(self, channel_id: str):
@@ -34,15 +49,6 @@ class Channel:
         """Возвращает ID канала"""
         return self.__channel_id
 
-    @classmethod
-    def get_service(cls):
-        """Возвращает объект для работы с API youtube"""
-        # YoutubeAPI_key скопирован из гугла и вставлен в переменные окружения
-        api_key: str = os.getenv('YoutubeAPI_key')
-        # создает специальный объект для работы с API
-        youtube = build('youtube', 'v3', developerKey=api_key)
-        return youtube
-
     def print_info(self):
         """Выводит в консоль информации о канале Youtube"""
         print(json.dumps(self.info, indent=2, ensure_ascii=False))
@@ -62,7 +68,7 @@ class Channel:
             json.dump(data, file, ensure_ascii=False, indent='\t')
 
 
-class Video:
+class Video(Youtube):
     """Класс видео с Youtube"""
 
     def __init__(self, video_id: str):
@@ -74,15 +80,6 @@ class Video:
 
     def __str__(self):
         return self.title
-
-    @classmethod
-    def get_service(cls):
-        """Возвращает объект для работы с API youtube"""
-        # YoutubeAPI_key скопирован из гугла и вставлен в переменные окружения
-        api_key: str = os.getenv('YoutubeAPI_key')
-        # создает специальный объект для работы с API
-        youtube = build('youtube', 'v3', developerKey=api_key)
-        return youtube
 
 
 class PLVideo(Video):
@@ -96,3 +93,45 @@ class PLVideo(Video):
 
     def __str__(self):
         return f'{self.title} ({self.pl_title})'
+
+
+class PlayList(Youtube):
+    """Класс play-листа Youtube"""
+
+    def __init__(self, pl_id: str):
+        self.pl_id = pl_id
+        self.pl_info = self.get_service().playlists().list(part='snippet', id=self.pl_id).execute()
+        self.pl_items_info = self.get_service().playlistItems().list(playlistId=pl_id, part='contentDetails',
+                                                                     maxResults=50).execute()
+        video_ids: list[str] = [video['contentDetails']['videoId'] for video in self.pl_items_info['items']]
+        self.pl_videos_info = self.get_service().videos().list(part='contentDetails,statistics',
+                                                               id=','.join(video_ids)).execute()
+        self.pl_title = self.pl_info["items"][0]["snippet"]["title"]
+        self.url = "https://www.youtube.com/playlist?list=" + self.pl_id
+
+    def __str__(self):
+        return f'{self.pl_title}'
+
+    @property
+    def total_duration(self) -> datetime.timedelta:
+        """Возвращает суммарную длительность play-листа ч:м:с"""
+        total_duration = datetime.timedelta()
+
+        for video in self.pl_videos_info['items']:
+            iso_8601_duration = video['contentDetails']['duration']
+            duration = isodate.parse_duration(iso_8601_duration)
+            total_duration += duration
+
+        return total_duration
+
+    def show_best_video(self) -> str:
+        """Возвращает ссылку на самое популярное видео из play-листа"""
+        best_video_url = ''
+        like_count = 0
+
+        for video in self.pl_videos_info['items']:
+            if int(video['statistics']['likeCount']) > like_count:
+                like_count = int(video['statistics']['likeCount'])
+                best_video_url = "https://youtu.be/" + video['id']
+
+        return best_video_url

@@ -1,3 +1,6 @@
+import datetime
+
+
 def test_str(shulman):
     assert shulman.__str__() == "Youtube-канал: Екатерина Шульман"
 
@@ -20,3 +23,15 @@ def test_str_video(video1):
 
 def test_str_plvideo(video2):
     assert video2.__str__() == "Dynoro & Gigi D’Agostino - In My Mind (Huge Dance Hits )"
+
+
+def test_str_playlist(playlist):
+    assert playlist.__str__() == "Редакция. АнтиТревел"
+
+
+def test_total_duration(playlist):
+    assert playlist.total_duration == datetime.timedelta(hours=3, minutes=41, seconds=1)
+
+
+def test_show_best_video(playlist):
+    assert playlist.show_best_video() == "https://youtu.be/9Bv2zltQKQA"

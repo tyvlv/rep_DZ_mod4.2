@@ -1,12 +1,12 @@
 import json
 
-from classes import Channel, Video, PLVideo
+from classes import Channel, Video, PLVideo, PlayList
 
 
 def main():
     # shulman = Channel('UCL1rJ0ROIw9V1qFeIN0ZTZQ')  # Екатерина Шульман
     # vdud = Channel('UCMCgOm8GZkHp8zJ6l7_hIuA')  # вДудь
-    #
+    # #
     # print(shulman)
     # print(vdud)
     #
@@ -35,6 +35,15 @@ def main():
     video2 = PLVideo('BBotskuyw_M', 'PL7Ntiz7eTKwrqmApjln9u4ItzhDLRtPuD')
     print(video1)
     print(video2)
+
+    pl = PlayList('PLguYHBi01DWr4bRWc4uaguASmo7lW4GCb')
+    print(pl)
+    print(pl.url)
+    print(json.dumps(pl.pl_videos_info, indent=2, ensure_ascii=False))
+    print(pl.total_duration)
+    print(type(pl.total_duration))
+    print(pl.total_duration.total_seconds())
+    print(pl.show_best_video())
 
 
 if __name__ == "__main__":
