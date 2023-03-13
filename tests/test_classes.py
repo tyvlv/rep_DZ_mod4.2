@@ -35,3 +35,9 @@ def test_total_duration(playlist):
 
 def test_show_best_video(playlist):
     assert playlist.show_best_video() == "https://youtu.be/9Bv2zltQKQA"
+
+
+def test_get_video_id_error(broken_video):
+    assert broken_video.video_id == 'broken_video_id'
+    assert broken_video.title is None
+    assert broken_video.like_count is None

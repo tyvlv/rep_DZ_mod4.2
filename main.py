@@ -31,19 +31,23 @@ def main():
     # print(video2.pl_title)
     # print(video2)
 
-    video1 = Video('9lO06Zxhu88')
-    video2 = PLVideo('BBotskuyw_M', 'PL7Ntiz7eTKwrqmApjln9u4ItzhDLRtPuD')
-    print(video1)
-    print(video2)
+    # video1 = Video('9lO06Zxhu88')
+    # video2 = PLVideo('BBotskuyw_M', 'PL7Ntiz7eTKwrqmApjln9u4ItzhDLRtPuD')
+    # print(video1)
+    # print(video2)
+    #
+    # pl = PlayList('PLguYHBi01DWr4bRWc4uaguASmo7lW4GCb')
+    # print(pl)
+    # print(pl.url)
+    # print(json.dumps(pl.pl_videos_info, indent=2, ensure_ascii=False))
+    # print(pl.total_duration)
+    # print(type(pl.total_duration))
+    # print(pl.total_duration.total_seconds())
+    # print(pl.show_best_video())
 
-    pl = PlayList('PLguYHBi01DWr4bRWc4uaguASmo7lW4GCb')
-    print(pl)
-    print(pl.url)
-    print(json.dumps(pl.pl_videos_info, indent=2, ensure_ascii=False))
-    print(pl.total_duration)
-    print(type(pl.total_duration))
-    print(pl.total_duration.total_seconds())
-    print(pl.show_best_video())
+    broken_video = Video('broken_video_id')
+    print(broken_video.title)
+    print(broken_video.like_count)
 
 
 if __name__ == "__main__":
