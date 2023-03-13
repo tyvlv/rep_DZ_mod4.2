@@ -25,3 +25,8 @@ def video2():
 @pytest.fixture
 def playlist():
     return PlayList('PLguYHBi01DWr4bRWc4uaguASmo7lW4GCb')
+
+
+@pytest.fixture
+def broken_video():
+    return Video('broken_video_id')

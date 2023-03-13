@@ -73,10 +73,18 @@ class Video(Youtube):
 
     def __init__(self, video_id: str):
         self.video_id = video_id
-        self.info = self.get_service().videos().list(part='snippet,statistics', id=self.video_id).execute()
-        self.title = self.info["items"][0]["snippet"]["title"]
-        self.view_count = self.info["items"][0]["statistics"]["viewCount"]
-        self.like_count = self.info["items"][0]["statistics"]["likeCount"]
+        try:
+            self.info = self.get_service().videos().list(part='snippet,statistics', id=self.video_id).execute()
+            if not self.info["items"]:
+                raise VideoIdError
+            else:
+                self.title = self.info["items"][0]["snippet"]["title"]
+                self.view_count = self.info["items"][0]["statistics"]["viewCount"]
+                self.like_count = self.info["items"][0]["statistics"]["likeCount"]
+        except VideoIdError:
+            self.title = None
+            self.view_count = None
+            self.like_count = None
 
     def __str__(self):
         return self.title
@@ -135,3 +143,8 @@ class PlayList(Youtube):
                 best_video_url = "https://youtu.be/" + video['id']
 
         return best_video_url
+
+
+class VideoIdError(Exception):
+    """Класс - исключение при некорректном параметре video_id"""
+    pass
